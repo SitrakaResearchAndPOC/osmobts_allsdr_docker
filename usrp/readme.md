@@ -8,6 +8,10 @@ apt install docker.io wget
 ```
 ## Preparing Dockerfile
 ```
+rm -rf osmobts
+```
+
+```
 mkdir osmobts
 ```
 ```
