@@ -17,30 +17,60 @@ mkdir osmobts
 cd osmobts
 ```
 ```
-wget https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/usrp/Dockerfile
+wget https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/Dockerfile
 ```
 ## Building images
 ```
-docker  build -t osmobts_usrp:v1 .
+docker  build -t osmobts_pluto:v1 .
 ```
 ## Launching container
 ```
-docker rm -f osmobts_usrp
+docker rm -f osmobts_pluto
 ```
 ```
-docker run -itd --privileged -v /dev/bus/usb:/dev/bus/usb -v /tmp/.X11-unix:/tmp/.X11-unix:ro -v $XAUTHORITY:/home/user/.Xauthority:ro --net=host --env="DISPLAY=$DISPLAY" --env="LC_ALL=C.UTF-8" --env="LANG=C.UTF-8"  --name osmobts_usrp -h osmobts_usrp osmobts_usrp:v1
+docker run -tid --privileged \
+  --cgroupns=host \
+  --net=host \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  -v /dev:/dev \
+  -v /dev/bus/usb:/dev/bus/usb \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  -v $XAUTHORITY:/home/user/.Xauthority:ro \
+  --tmpfs /run \
+  --tmpfs /run/lock \
+  --env="DISPLAY=$DISPLAY" \
+  --env="LC_ALL=C.UTF-8" \
+  --env="LANG=C.UTF-8" \
+  --name osmobts_pluto \
+  --hostname osmobts_pluto \
+  osmobts_pluto:v1
 ```
-## Testing driver USRP
+
+## Testing driver PlutoSDR
 ```
-docker exec -it osmobts_usrp uhd_find_devices
+xhost +
+```
+
+```
+docker exec -ti osmobts_pluto bash -c 'ping 192.168.20.1'
+```
+or test ssh
+```
+docker exec -ti osmobts_pluto bash -c 'ssh root@192.168.20.1'
+```
+MDP is `analog`
+
+```
+docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --info'
 ```
 ```
-docker exec -it osmobts_usrp uhd_usrp_probe
+docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --find'
 ```
+
 ## Launching BTS
 ```
-docker exec -it osmobts_usrp bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_base.sh'
+docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_base.sh'
 ```
 ```
-docker exec -it osmobts_usrp bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_master.sh'
+docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_master.sh'
 ```
