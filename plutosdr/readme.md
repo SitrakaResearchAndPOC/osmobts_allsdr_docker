@@ -28,18 +28,17 @@ docker  build -t osmobts_pluto:v1 .
 docker rm -f osmobts_pluto
 ```
 ```
-docker run -tid --privileged   \
---cgroupns=host \
+docker run -tid --privileged --cgroupns=host \
 --net=host \
--v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+-v /sys/fs/cgroup:/sys/fs/cgroup:rw \ 
 -v /dev:/dev \
 -v /dev/bus/usb:/dev/bus/usb \
 -v /tmp/.X11-unix:/tmp/.X11-unix:ro  \
--v /home/user/.Xauthority:/home/user/.Xauthority:ro \
+-v /home/user/.Xauthority:/home/user/.Xauthority:ro \ 
 --tmpfs /run  \
---tmpfs /run/lock  \
---env="DISPLAY=$DISPLAY"  \
---env="LC_ALL=C.UTF-8"
+--tmpfs /run/lock \ 
+--env="DISPLAY=$DISPLAY" \ 
+--env="LC_ALL=C.UTF-8"\
 --env="LANG=C.UTF-8" \
 --cap-add=sys_nice \
 --cap-add=ipc_lock \
