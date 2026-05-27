@@ -21,80 +21,108 @@ RUN apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=30 && \
     net-tools zsh wireshark iptables nano inetutils-ping \
     git wget tmux curl
 
+
 # =========================
-# SOAPY INSTEAD UHD / USRP
+# Base system + build deps
 # =========================
-RUN mkdir -p /opt/src
+RUN apt-get update && apt-get install -y -o Acquire::Retries=5 --no-install-recommends \
+    git \
+    build-essential \
+    cmake \
+    g++ \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    swig \
+    python3-dev \
+    libxml2 \
+    libxml2-dev \
+    bison \
+    flex \
+    libcdk5-dev \
+    libusb-1.0-0-dev \
+    libaio-dev \
+    libfftw3-dev \
+    libsctp-dev \
+    libboost-program-options-dev \
+    libconfig++-dev \
+    libboost-all-dev \
+    libzmq3-dev \
+    libreadline-dev \
+    libncurses5-dev \
+    libssl-dev \
+    wget \
+    curl \
+    ca-certificates 
 
-# Variables d’environnement
-ENV SRS_INSTALL=/root/srs
-ENV LD_LIBRARY_PATH=/root/srs/lib:${LD_LIBRARY_PATH}
-ENV PKG_CONFIG_PATH=/root/srs/lib/pkgconfig:${PKG_CONFIG_PATH}
-ENV SOAPY_SDR_PLUGIN_PATH=/root/srs/lib/SoapySDR/modules0.8
+RUN apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=30 && \
+    apt-get install -y -o Acquire::Retries=5 --no-install-recommends \
+    python3-setuptools python3-pip
 
-# Création du répertoire d’installation
-RUN mkdir -p ${SRS_INSTALL}
-
-# Ajouter automatiquement dans bashrc
-RUN echo 'export SRS_INSTALL=$HOME/srs' >> /root/.bashrc && \
-    echo 'export LD_LIBRARY_PATH=$SRS_INSTALL/lib:$LD_LIBRARY_PATH' >> /root/.bashrc && \
-    echo 'export PKG_CONFIG_PATH=$SRS_INSTALL/lib/pkgconfig:$PKG_CONFIG_PATH' >> /root/.bashrc && \
-    echo 'export SOAPY_SDR_PLUGIN_PATH=$SRS_INSTALL/lib/SoapySDR/modules0.8' >> /root/.bashrc
-
+RUN apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=30 && \
+    apt-get install -y --no-install-recommends \
+    software-properties-common && \
+    add-apt-repository universe && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    ninja-build \
+    g++ \
+    git \
+    wget \
+    curl \
+    tmux \
+    nano \
+    zsh \
+    net-tools \
+    iptables \
+    inetutils-ping \
+    wireshark \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    swig \
+    python3 \
+    python3-dev \
+    python3-setuptools \
+    python3-pip \
+    bison \
+    flex \
+    sudo \
+    libxml2 \
+    libxml2-dev \
+    libcdk5-dev \
+    libusb-1.0-0-dev \
+    libaio-dev \
+    libfftw3-dev \
+    libsctp-dev \
+    libboost-program-options-dev \
+    libboost-all-dev \
+    libconfig++-dev \
+    libzmq3-dev \
+    libreadline-dev \
+    libncurses5-dev \
+    libssl-dev \
+    libmbedtls-dev \
+    libosmocore-dev \
+    libsoapysdr-dev \
+    soapysdr-tools \
+    libiio-dev \
+    libiio-utils
 
 WORKDIR /opt/src
 
 # =========================================================
 # SOAPY INSTEAD UHD
 # =========================================================
-# Télécharger SoapySDR
-WORKDIR /opt/src
 
-RUN git clone \
-    --depth 1 \
-    --branch soapy-sdr-0.8.1 \
-    https://github.com/pothosware/SoapySDR.git
-
-# Compilation et installation
-WORKDIR /opt/src
-
-RUN cd SoapySDR && \
-    mkdir build && \
-    cd build && \
-    cmake \
-        -DCMAKE_INSTALL_PREFIX=${SRS_INSTALL} \
-        -DCMAKE_PREFIX_PATH=${SRS_INSTALL} \
-        .. && \
-    make -j$(nproc) && \
-    make install
-    
- 
- 
-# Télécharger libiio
-WORKDIR /opt/src
-
-RUN git clone \
-    --depth 1 \
-    --branch v0.24 \
-    https://github.com/analogdevicesinc/libiio.git
-
-# Compilation et installation
-WORKDIR /opt/src
-
-RUN cd libiio && \
-    mkdir build && \
-    cd build && \
-    cmake \
-        -DCMAKE_INSTALL_PREFIX=${SRS_INSTALL} \
-        -DCMAKE_PREFIX_PATH=${SRS_INSTALL} \
-        -DUDEV_RULES_INSTALL_DIR=${SRS_INSTALL}/etc/udev/rules.d \
-        -DHAVE_DNS_SD=OFF \
-        .. && \
-    make -j$(nproc) && \
-    make install
-    
-       
-# Télécharger libad9361-iio
+# =========================================================
+# libad9361-iio
+# =========================================================
 WORKDIR /opt/src
 
 RUN git clone \
@@ -102,20 +130,17 @@ RUN git clone \
     --branch v0.3 \
     https://github.com/analogdevicesinc/libad9361-iio.git
 
-# Compilation et installation
-WORKDIR /opt/src
-
 RUN cd libad9361-iio && \
-    mkdir build && \
+    mkdir -p build && \
     cd build && \
-    cmake \
-        -DCMAKE_INSTALL_PREFIX=${SRS_INSTALL} \
-        -DCMAKE_PREFIX_PATH=${SRS_INSTALL} \
-        .. && \
+    cmake .. && \
     make -j$(nproc) && \
-    make install
+    make install && \
+    ldconfig
 
-# Télécharger SoapyPlutoSDR timestamping
+# =========================================================
+# SoapyPlutoSDR (timestamping branch)
+# =========================================================
 WORKDIR /opt/src
 
 RUN git clone \
@@ -123,20 +148,17 @@ RUN git clone \
     --branch sdr_gadget_timestamping \
     https://github.com/pgreenland/SoapyPlutoSDR.git
 
-# Compilation et installation
-WORKDIR /opt/src
-
 RUN cd SoapyPlutoSDR && \
-	sed -i 's/CXX_COMPILER_ID:GNU,Clang,AppleClang/OR:$<CXX_COMPILER_ID:GNU>,$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>/g' CMakeLists.txt && \
-    mkdir build && \
+    sed -i \
+    's/CXX_COMPILER_ID:GNU,Clang,AppleClang/OR:$<CXX_COMPILER_ID:GNU>,$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>/g' \
+    CMakeLists.txt && \
+    mkdir -p build && \
     cd build && \
-    cmake \
-        -DCMAKE_INSTALL_PREFIX=${SRS_INSTALL} \
-        -DCMAKE_PREFIX_PATH=${SRS_INSTALL} \
-        .. && \
+    cmake .. && \
     make -j$(nproc) && \
-    make install
-
+    make install && \
+    ldconfig
+ 
 
 
 # =========================================================
