@@ -59,11 +59,11 @@ xhost +
 ```
 Change the <IP_ADDRESS>
 ```
-ssh-keygen -R '<IP_ADDRESS>' && docker exec -ti osmobts_pluto bash -c 'ping <IP_ADDRESS>'
+docker exec -ti osmobts_pluto bash -c 'ping <IP_ADDRESS>'
 ```
 or test ssh
 ```
-docker exec -ti osmobts_pluto bash -c 'ssh root@<IP_ADDRESS>'
+ssh-keygen -R '<IP_ADDRESS>' && docker exec -ti osmobts_pluto bash -c 'ssh root@<IP_ADDRESS>'
 ```
 </br>
 MDP is `analog`
