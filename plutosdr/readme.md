@@ -28,7 +28,7 @@ docker  build -t osmobts_pluto:v1 .
 docker rm -f osmobts_pluto
 ```
 ```
-docker run -tid --privileged \
+docker rm -f  osmobts_pluto && docker run -tid --privileged \
   --cgroupns=host \
   --net=host \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
@@ -45,7 +45,6 @@ docker run -tid --privileged \
   --cap-add=ipc_lock \
   --ulimit rtprio=99 \
   --ulimit memlock=-1 \
-  --cpuset-cpus="2,3,4,5" \
   --name osmobts_pluto \
   --hostname osmobts_pluto \
   osmobts_pluto:v1
@@ -55,14 +54,15 @@ docker run -tid --privileged \
 ```
 xhost +
 ```
-
+Change the <IP_ADDRESS>
 ```
-docker exec -ti osmobts_pluto bash -c 'ping 192.168.20.1'
+ssh-keygen -R '<IP_ADDRESS>' && docker exec -ti osmobts_pluto bash -c 'ping <IP_ADDRESS>'
 ```
 or test ssh
 ```
-docker exec -ti osmobts_pluto bash -c 'ssh root@192.168.20.1'
+docker exec -ti osmobts_pluto bash -c 'ssh root@<IP_ADDRESS>'
 ```
+</br>
 MDP is `analog`
 
 ```
@@ -71,11 +71,16 @@ docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --info'
 ```
 docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --find'
 ```
+```
+docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --probe="driver=plutosdr"'
+```
 
 ## Launching BTS
-```
-docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_base.sh'
-```
+Launching the core network
 ```
 docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_master.sh'
+```
+Launching the RAN network
+```
+docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_base.sh'
 ```
