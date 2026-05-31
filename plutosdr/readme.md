@@ -1,4 +1,7 @@
 # Installation osmoBTS from PlutoSDR
+## Flashing firmeware 
+[Flashing_firmeware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
+
 ## Installing tools
 ```
 apt update
