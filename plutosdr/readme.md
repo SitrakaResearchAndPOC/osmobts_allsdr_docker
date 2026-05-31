@@ -69,13 +69,13 @@ docker exec -ti osmobts_pluto bash -c 'ssh root@<IP_ADDRESS>'
 MDP is `analog`
 
 ```
-docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --info'
+docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --info'
 ```
 ```
-docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --find'
+docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --find'
 ```
 ```
-docker exec -ti osmobts_pluto bash -c '$SRS_INSTALL/bin/SoapySDRUtil --probe="driver=plutosdr"'
+docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --probe="driver=plutosdr"'
 ```
 
 ## Launching BTS
