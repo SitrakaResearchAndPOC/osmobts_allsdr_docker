@@ -31,7 +31,8 @@ docker  build -t osmobts_pluto:v1 .
 docker rm -f osmobts_pluto
 ```
 ```
-docker rm -f  osmobts_pluto && docker run -tid --privileged \
+docker rm -f  osmobts_pluto && \
+docker run -tid --privileged \
   --cgroupns=host \
   --net=host \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
