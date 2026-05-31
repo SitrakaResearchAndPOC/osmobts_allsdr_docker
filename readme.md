@@ -1,6 +1,6 @@
 # Flashing firmeware 
 [Flahsing_firmeware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
 # Installation for USRP
-[installation_usrp][https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/usrp]
+[installation_usrp](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/usrp)
 # Instalaltion for PlutoSDR
-[installation_pluto][https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr]
+[installation_pluto](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr)
