@@ -15,38 +15,26 @@ fi
 echo "[INFO] CFG found"
 
 # ---------------------------
-# 1. IP Pluto
+# 1. Pluto hostname
 # ---------------------------
-IP="${IP_PLUTO:-}"
+NAME="${NAME_PLUTO:-}"
 
-if [ -z "$IP" ]; then
-    echo "[ERROR] IP_PLUTO not defined"
-    exit 1
+# Remove all spaces
+NAME=$(echo "$NAME" | tr -d '[:space:]')
+
+# Default hostname
+if [ -z "$NAME" ]; then
+    NAME="pluto"
+    echo "[INFO] NAME_PLUTO not defined, using default: $NAME"
 fi
 
-echo "[INFO] IP_PLUTO = $IP"
+URI="${NAME}.local"
+
+echo "[INFO] Pluto hostname = $NAME"
+echo "[INFO] Pluto URI = ip:$URI"
 
 # ---------------------------
-# 2. IPv4 validation
-# ---------------------------
-if ! [[ "$IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
-    echo "[ERROR] Invalid IPv4 format"
-    exit 1
-fi
-
-IFS='.' read -r o1 o2 o3 o4 <<< "$IP"
-
-for o in $o1 $o2 $o3 $o4; do
-    if [ "$o" -lt 0 ] || [ "$o" -gt 255 ]; then
-        echo "[ERROR] IPv4 out of range: $IP"
-        exit 1
-    fi
-done
-
-echo "[INFO] IPv4 validated"
-
-# ---------------------------
-# 3. Detect RF line
+# 2. Detect RF line
 # ---------------------------
 LINE=$(grep -E "^[[:space:]]*(dev-args|device_args|rf\.stream_args)" "$CFG")
 
@@ -59,7 +47,7 @@ echo "[INFO] RF line detected:"
 echo "$LINE"
 
 # ---------------------------
-# 4. Skip if already configured
+# 3. Skip if already configured
 # ---------------------------
 if echo "$LINE" | grep -q "uri=ip:"; then
     echo "[INFO] uri=ip already present, no change"
@@ -67,18 +55,18 @@ if echo "$LINE" | grep -q "uri=ip:"; then
 fi
 
 # ---------------------------
-# 5. Patch config
+# 4. Patch config
 # ---------------------------
-echo "[INFO] Adding uri=ip:$IP"
+echo "[INFO] Adding uri=ip:$URI"
 
-sed -i "s|^\([[:space:]]*dev-args.*\)$|\1,uri=ip:$IP|" "$CFG"
-sed -i "s|^\([[:space:]]*device_args.*\)$|\1,uri=ip:$IP|" "$CFG"
-sed -i "s|^\([[:space:]]*rf\.stream_args.*\)$|\1,uri=ip:$IP|" "$CFG"
+sed -i "s|^\([[:space:]]*dev-args.*\)$|\1,uri=ip:$URI|" "$CFG"
+sed -i "s|^\([[:space:]]*device_args.*\)$|\1,uri=ip:$URI|" "$CFG"
+sed -i "s|^\([[:space:]]*rf\.stream_args.*\)$|\1,uri=ip:$URI|" "$CFG"
 
 # ---------------------------
-# 6. Verify
+# 5. Verify
 # ---------------------------
-if grep -q "uri=ip:$IP" "$CFG"; then
+if grep -q "uri=ip:$URI" "$CFG"; then
     echo "[INFO] SUCCESS: uri added"
 else
     echo "[ERROR] Patch failed"
