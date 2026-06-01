@@ -28,11 +28,10 @@ docker  build -t osmobts_pluto:v1 .
 ```
 ## Launching container
 ```
-docker rm -f osmobts_pluto
+export IP_PLUTO=192.168.4.1
 ```
 ```
-docker rm -f  osmobts_pluto && \
-docker run -tid --privileged \
+docker rm -f osmobts_pluto && docker run -tid --privileged \
   --cgroupns=host \
   --net=host \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
@@ -45,12 +44,15 @@ docker run -tid --privileged \
   --env="DISPLAY=$DISPLAY" \
   --env="LC_ALL=C.UTF-8" \
   --env="LANG=C.UTF-8" \
+  --env="IP_PLUTO=$IP_PLUTO" \
   --cap-add=sys_nice \
   --cap-add=ipc_lock \
   --ulimit rtprio=99 \
   --ulimit memlock=-1 \
   --name osmobts_pluto \
   --hostname osmobts_pluto \
+  --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
+  --volume /run/avahi-daemon/socket:/run/avahi-daemon/socket \
   osmobts_pluto:v1
 ```
 
