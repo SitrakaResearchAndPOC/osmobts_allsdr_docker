@@ -41,10 +41,10 @@ docker rm -f osmobts_pluto && docker run -tid --privileged \
   --cap-add=ipc_lock \
   --ulimit rtprio=99 \
   --ulimit memlock=-1 \
-  --name osmobts_pluto \
-  --hostname osmobts_pluto \
   --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
   --volume /run/avahi-daemon/socket:/run/avahi-daemon/socket \
+  --name osmobts_pluto \
+  --hostname osmobts_pluto \
   osmobts_pluto:v1
 ```
 CHECK USB CONFIGURATION
@@ -77,10 +77,10 @@ docker rm -f osmobts_pluto && docker run -tid --privileged \
   --cap-add=ipc_lock \
   --ulimit rtprio=99 \
   --ulimit memlock=-1 \
-  --name osmobts_pluto \
-  --hostname osmobts_pluto \
   --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
   --volume /run/avahi-daemon/socket:/run/avahi-daemon/socket \
+  --name osmobts_pluto \
+  --hostname osmobts_pluto \
   osmobts_pluto:v1
 ```
 CHECK ETHERNET CONFIGURATION
