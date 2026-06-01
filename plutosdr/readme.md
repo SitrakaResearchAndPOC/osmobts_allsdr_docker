@@ -42,6 +42,7 @@ docker rm -f osmobts_pluto && docker run -tid --privileged \
   --env="DISPLAY=$DISPLAY" \
   --env="LC_ALL=C.UTF-8" \
   --env="LANG=C.UTF-8" \
+  --env="NAME_PLUTO=pluto" \
   --cap-add=sys_nice \
   --cap-add=ipc_lock \
   --ulimit rtprio=99 \
@@ -60,7 +61,7 @@ docker exec -it osmobts_pluto bash -c 'bash /osmobts/check_pluto_usb_cfg.sh'
 
 ## DIRECT ETHERNET
 ```
-export IP_PLUTO=192.168.4.1
+export NAME_PLUTO=fishball
 ```
 ```
 docker rm -f osmobts_pluto && docker run -tid --privileged \
@@ -76,7 +77,7 @@ docker rm -f osmobts_pluto && docker run -tid --privileged \
   --env="DISPLAY=$DISPLAY" \
   --env="LC_ALL=C.UTF-8" \
   --env="LANG=C.UTF-8" \
-  --env="IP_PLUTO=$IP_PLUTO" \
+  --env="NAME_PLUTO=$NAME_PLUTO" \
   --cap-add=sys_nice \
   --cap-add=ipc_lock \
   --ulimit rtprio=99 \
