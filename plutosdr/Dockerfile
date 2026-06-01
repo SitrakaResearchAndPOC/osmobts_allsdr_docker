@@ -240,7 +240,8 @@ RUN sed -i "/DIR=\/home\/user1\/GSM\/osmo_trx_soapy\/Transceiver52M/d" start_bas
 
 WORKDIR /osmobts
 RUN wget  https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/check_pluto_network_cfg.sh && \
-    chmod +x 
+    wget  https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/check_pluto_usb_cfg.sh && \
+    chmod +x *.sh
 
 # =========================
 # cleanup final
