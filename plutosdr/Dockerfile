@@ -229,6 +229,7 @@ RUN cd fork_osmo-trx_soapy && \
     make -j$(nproc) && \
     make install
 
+
 # =========================
 # Patch start script
 # =========================
@@ -237,7 +238,9 @@ WORKDIR /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE
 RUN sed -i "/DIR=\/home\/user1\/GSM\/osmo_trx_soapy\/Transceiver52M/d" start_base.sh && \
     sed -i "s#\$DIR/osmo-trx-soapy -C \$DIR/test1.cfg#osmo-trx-soapy -C /osmobts/fork_osmo-trx_soapy/Transceiver52M/test1.cfg#g" start_base.sh
 
-
+WORKDIR /osmobts
+RUN wget  https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/check_pluto_network_cfg.sh && \
+    chmod +x 
 
 # =========================
 # cleanup final
