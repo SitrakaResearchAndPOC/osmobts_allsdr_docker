@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CFG="/osmobts/fork_osmo-trx_soapy/Transceiver52M/test1.cfg"
+CFG="$1"
 
 echo "[INFO] Starting Pluto config cleanup..."
 # ---------------------------
