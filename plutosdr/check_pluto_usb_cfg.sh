@@ -14,7 +14,7 @@ if [ -z "$LINE" ]; then
 fi
 
 echo "[INFO] RF line detected:"
-echo "$LINE"
+echo "[OLD_CONF] $LINE"
 
 
 # ---------------------------
@@ -62,7 +62,7 @@ if [ -z "$LINE" ]; then
 fi
 
 echo "[INFO] RF line detected:"
-echo "$LINE"
+echo "[NEW_CONF] $LINE"
 
 
 echo "[INFO] Cleanup successful"
