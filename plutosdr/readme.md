@@ -27,6 +27,38 @@ wget https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_dock
 docker  build -t osmobts_pluto:v1 .
 ```
 ## Launching container
+### DIRECT USB
+```
+docker rm -f osmobts_pluto && docker run -tid --privileged \
+  --cgroupns=host \
+  --net=host \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  -v /dev:/dev \
+  -v /dev/bus/usb:/dev/bus/usb \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  -v /home/user/.Xauthority:/home/user/.Xauthority:ro \
+  --tmpfs /run \
+  --tmpfs /run/lock \
+  --env="DISPLAY=$DISPLAY" \
+  --env="LC_ALL=C.UTF-8" \
+  --env="LANG=C.UTF-8" \
+  --cap-add=sys_nice \
+  --cap-add=ipc_lock \
+  --ulimit rtprio=99 \
+  --ulimit memlock=-1 \
+  --name osmobts_pluto \
+  --hostname osmobts_pluto \
+  --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
+  --volume /run/avahi-daemon/socket:/run/avahi-daemon/socket \
+  osmobts_pluto:v1
+```
+CHECK USB CONFIGURATION
+```
+docker exec -it osmobts_pluto bash -c 'bash /osmobts/check_pluto_usb_cfg.sh'
+```
+
+
+## DIRECT ETHERNET
 ```
 export IP_PLUTO=192.168.4.1
 ```
@@ -54,6 +86,10 @@ docker rm -f osmobts_pluto && docker run -tid --privileged \
   --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
   --volume /run/avahi-daemon/socket:/run/avahi-daemon/socket \
   osmobts_pluto:v1
+```
+CHECK ETHERNET CONFIGURATION
+```
+docker exec -it osmobts_pluto bash -c 'bash /osmobts/check_pluto_network_cfg.sh'
 ```
 
 ## Testing driver PlutoSDR
