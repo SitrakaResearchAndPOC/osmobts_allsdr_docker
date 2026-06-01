@@ -15,24 +15,23 @@ fi
 echo "[INFO] CFG found"
 
 # ---------------------------
-# 2. Check if uri exists at all
+# 2. Check if uri exists
 # ---------------------------
 if ! grep -q "uri=ip:" "$CFG"; then
     echo "[INFO] No uri=ip found - nothing to do"
     exit 0
 fi
 
-echo "[INFO] Removing uri=ip from RF line(s)"
+echo "[INFO] Removing Pluto URI from RF line(s)"
 
 # ---------------------------
-# 3. Remove uri=ip=... safely
+# 3. Remove uri=ip:<hostname>.local
 # ---------------------------
-sed -i -E 's/,?uri=ip:[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+//g' "$CFG"
+sed -i -E 's/,?uri=ip:[^,[:space:]]+\.local//g' "$CFG"
 
 # ---------------------------
 # 4. Detect RF line
 # ---------------------------
-
 LINE=$(grep -E "^[[:space:]]*(dev-args|device_args|rf\.stream_args)" "$CFG")
 
 if [ -z "$LINE" ]; then
