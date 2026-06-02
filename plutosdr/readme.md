@@ -1,26 +1,26 @@
 # Installation osmoBTS from PlutoSDR
-## Flashing firmware 
+## I. Flashing firmware 
 [Flashing_firmware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
 
-## Installing tools
+## II. Installing tools
 ```
 apt update
 ```
 ```
 apt install docker.io wget
 ```
-## Preparing Dockerfile
+## III. Preparing Dockerfile
 ```
 rm -rf osmobts && mkdir osmobts && cd osmobts
 ```
 ```
 wget https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/Dockerfile
 ```
-## Building images
+## IV. Building images
 ```
 docker  build -t osmobts_pluto:v1 .
 ```
-## Launching container
+## V. Launching container
 ### DIRECT USB
 [screen_shots_usb_direct](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screenshot_usb_direct)
 ```
@@ -56,7 +56,7 @@ docker exec -it osmobts_pluto bash -c \
 ```
 
 
-## DIRECT ETHERNET
+### DIRECT ETHERNET
 [screen_shots_ethernet_direct](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screen_shot_ethernet_direct)
 ```
 export NAME_PLUTO=fishball
@@ -93,7 +93,7 @@ docker exec -it osmobts_pluto bash -c \
 'bash /osmobts/check_pluto_network_cfg.sh /osmobts/fork_osmo-trx_soapy/Transceiver52M/test1.cfg'
 ```
 
-## Testing driver PlutoSDR
+## VI. Testing driver PlutoSDR
 [screen_shot_plutosdr_osmobts](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screen_shot)
 ```
 xhost +
@@ -119,7 +119,7 @@ docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --find'
 docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --probe="driver=plutosdr"'
 ```
 
-## Launching BTS
+## VII. Launching BTS
 Launching the core network
 ```
 docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_master.sh'
