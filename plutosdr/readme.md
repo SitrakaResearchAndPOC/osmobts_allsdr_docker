@@ -1,6 +1,6 @@
 # Installation osmoBTS from PlutoSDR
-## Flashing firmeware 
-[Flashing_firmeware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
+## Flashing firmware 
+[Flashing_firmware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
 
 ## Installing tools
 ```
@@ -22,6 +22,7 @@ docker  build -t osmobts_pluto:v1 .
 ```
 ## Launching container
 ### DIRECT USB
+[screen_shots_usb_direct](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screenshot_usb_direct)
 ```
 docker rm -f osmobts_pluto 2> /dev/null ; \
 docker run -tid --privileged \
@@ -56,6 +57,7 @@ docker exec -it osmobts_pluto bash -c \
 
 
 ## DIRECT ETHERNET
+[screen_shots_ethernet_direct](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screen_shot_ethernet_direct)
 ```
 export NAME_PLUTO=fishball
 ```
