@@ -94,6 +94,7 @@ docker exec -it osmobts_pluto bash -c \
 ```
 
 ## Testing driver PlutoSDR
+[screen_shot_plutosdr_osmobts](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screen_shot)
 ```
 xhost +
 ```
