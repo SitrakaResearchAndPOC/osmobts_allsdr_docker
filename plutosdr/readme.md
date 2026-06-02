@@ -1,5 +1,5 @@
 # Installation osmoBTS from PlutoSDR
-## I. Flashing firmware 
+## I. Flashing firmware using timestamp mode
 [Flashing_firmware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
 
 ## II. Installing tools
