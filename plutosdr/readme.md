@@ -23,7 +23,8 @@ docker  build -t osmobts_pluto:v1 .
 ## Launching container
 ### DIRECT USB
 ```
-docker rm -f osmobts_pluto && docker run -tid --privileged \
+docker rm -f osmobts_pluto 2> /dev/null ; \
+docker run -tid --privileged \
   --cgroupns=host \
   --net=host \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
@@ -59,7 +60,8 @@ docker exec -it osmobts_pluto bash -c \
 export NAME_PLUTO=fishball
 ```
 ```
-docker rm -f osmobts_pluto && docker run -tid --privileged \
+docker rm -f osmobts_pluto 2> /dev/null ; \
+docker run -tid --privileged \
   --cgroupns=host \
   --net=host \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
