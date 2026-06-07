@@ -122,7 +122,6 @@ Change name of pluto eg : `fishball`
 ```
 export NAME_PLUTO=fishball
 ```
-
 ```
 docker exec -ti osmobts_pluto bash -c 'ping "$NAME_PLUTO.local"'
 ```
@@ -144,11 +143,13 @@ docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --probe="driver=plutosdr"'
 ```
 
 ## VIII. Launching BTS
+### ON TERMINAL 1
 Launching the core network
 ```
 docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && \
 bash start_network_core.sh'
 ```
+### ON TERMINAL 2
 Launching the RAN network
 ```
 docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && \
