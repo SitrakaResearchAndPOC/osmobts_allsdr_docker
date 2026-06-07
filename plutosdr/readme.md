@@ -138,9 +138,15 @@ docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --info'
 ```
 docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --find'
 ```
+
+* Over USB
 ```
-docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --probe="driver=plutosdr"'
+docker exec -ti bulk2g_pluto  bash -c 'SoapySDRUtil --probe="driver=plutosdr"'
 ```
+* Over Ethernet
+```
+docker exec -ti bulk2g_pluto  bash -c 'SoapySDRUtil --probe="driver=plutosdr,hostname=$NAME_PLUTO.local"'
+```  
 
 ## VIII. Launching BTS
 ### ON TERMINAL 1
