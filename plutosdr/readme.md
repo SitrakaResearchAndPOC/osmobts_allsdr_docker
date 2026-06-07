@@ -2,25 +2,43 @@
 ## I. Flashing firmware using timestamp mode
 [Flashing_firmware](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/firmeware)
 
-## II. Installing tools
+## II. Preparing PlutoSDR
+```
+lsusb
+```
+Verify if this log exist </br>
+`Bus 001 Device 006: ID 0456:b673 Analog Devices, Inc. LibIIO based AD9363 Software Defined Radio [ADALM-PLUTO]`  </br>
+
+Launch : 
+```
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0456", ATTR{idProduct}=="b673", MODE="666"' | sudo tee /etc/udev/rules.d/90-libiio_pluto.rules
+```
+Then, 
+```
+sudo udevadm control --reload-rules
+```
+```
+sudo udevadm trigger
+```
+## III. Installing tools
 ```
 apt update
 ```
 ```
 apt install docker.io wget
 ```
-## III. Preparing Dockerfile
+## IV. Preparing Dockerfile
 ```
 rm -rf osmobts && mkdir osmobts && cd osmobts
 ```
 ```
 wget https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/Dockerfile
 ```
-## IV. Building images
+## V. Building images
 ```
 docker  build -t osmobts_pluto:v1 .
 ```
-## V. Launching container
+## VI. Launching container
 ### DIRECT USB
 [screen_shots_usb_direct](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screenshot_usb_direct)
 ```
@@ -93,7 +111,7 @@ docker exec -it osmobts_pluto bash -c \
 'bash /osmobts/check_pluto_network_cfg.sh /osmobts/fork_osmo-trx_soapy/Transceiver52M/test1.cfg'
 ```
 
-## VI. Testing driver PlutoSDR
+## VII. Testing driver PlutoSDR
 [screen_shot_plutosdr_osmobts](https://github.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/tree/main/plutosdr/screen_shot)
 ```
 xhost +
@@ -119,7 +137,7 @@ docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --find'
 docker exec -ti osmobts_pluto bash -c 'SoapySDRUtil --probe="driver=plutosdr"'
 ```
 
-## VII. Launching BTS
+## VIII. Launching BTS
 Launching the core network
 ```
 docker exec -it osmobts_pluto bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_master.sh'
