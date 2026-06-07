@@ -117,6 +117,14 @@ RUN apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=30 && \
 WORKDIR /opt/src
 
 # =========================================================
+# DNS FOR PLUTOSDR
+# =========================================================
+
+RUN apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=30 && \
+    apt-get install -y -o Acquire::Retries=5 --no-install-recommends \
+    libnss-mdns avahi-utils
+    
+# =========================================================
 # SOAPY INSTEAD UHD
 # =========================================================
 
@@ -235,8 +243,12 @@ RUN cd fork_osmo-trx_soapy && \
 # =========================
 WORKDIR /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE
 
+
 RUN sed -i "/DIR=\/home\/user1\/GSM\/osmo_trx_soapy\/Transceiver52M/d" start_base.sh && \
     sed -i "s#\$DIR/osmo-trx-soapy -C \$DIR/test1.cfg#osmo-trx-soapy -C /osmobts/fork_osmo-trx_soapy/Transceiver52M/test1.cfg#g" start_base.sh
+
+RUN cp start_base.sh start_network_ran.sh
+RUN cp start_master.sh start_network_core.sh
 
 WORKDIR /osmobts
 RUN wget  https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/plutosdr/check_pluto_network_cfg.sh && \
