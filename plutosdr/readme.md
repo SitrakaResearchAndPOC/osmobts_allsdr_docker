@@ -4,7 +4,7 @@
 
 ## II. Preparing PlutoSDR
 ```
-lsusb
+lsusb | grep "ADALM-PLUTO"
 ```
 Verify if this log exist </br>
 `Bus 001 Device 006: ID 0456:b673 Analog Devices, Inc. LibIIO based AD9363 Software Defined Radio [ADALM-PLUTO]`  </br>
@@ -128,7 +128,7 @@ docker exec -ti osmobts_pluto bash -c 'ping "$NAME_PLUTO.local"'
 ```
 or test ssh
 ```
-ssh-keygen -R "$NAME_PLUTO.local"' && docker exec -ti osmobts_pluto bash -c 'ssh root@"$NAME_PLUTO.local"'
+ssh-keygen -R "$NAME_PLUTO.local" && docker exec -ti osmobts_pluto bash -c 'ssh root@"$NAME_PLUTO.local"'
 ```
 </br>
 MDP is `analog`
