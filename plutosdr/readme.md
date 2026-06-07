@@ -20,6 +20,8 @@ sudo udevadm control --reload-rules
 ```
 sudo udevadm trigger
 ```
+Unplug and replug PlutoSDR </br>
+
 ## III. Installing tools
 ```
 apt update
