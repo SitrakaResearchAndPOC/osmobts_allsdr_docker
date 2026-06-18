@@ -8,14 +8,7 @@ apt install docker.io wget
 ```
 ## Preparing Dockerfile
 ```
-rm -rf osmobts
-```
-
-```
-mkdir osmobts
-```
-```
-cd osmobts
+rm -rf osmobts_usrp && mkdir osmobts_usrp && cd osmobts_usrp
 ```
 ```
 wget https://raw.githubusercontent.com/SitrakaResearchAndPOC/osmobts_allsdr_docker/refs/heads/main/usrp/Dockerfile
