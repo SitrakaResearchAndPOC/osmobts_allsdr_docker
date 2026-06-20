@@ -32,9 +32,11 @@ docker exec -it osmobts_usrp uhd_find_devices
 docker exec -it osmobts_usrp uhd_usrp_probe
 ```
 ## Launching BTS
-```
-docker exec -it osmobts_usrp bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_base.sh'
-```
+start CORE network
 ```
 docker exec -it osmobts_usrp bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_master.sh'
+```
+Start RAN network 
+```
+docker exec -it osmobts_usrp bash -c 'cd /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE/ && bash start_base.sh'
 ```
