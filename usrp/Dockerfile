@@ -104,8 +104,8 @@ WORKDIR /osmobts/fork_osmo-trx_soapy/Osmocom_configs/VOICE
 RUN sed -i "/DIR=\/home\/user1\/GSM\/osmo_trx_soapy\/Transceiver52M/d" start_base.sh && \
     sed -i "s#\$DIR/osmo-trx-soapy -C \$DIR/test1.cfg#osmo-trx-uhd -C /osmobts/osmo-trx-uhd.cfg#g" start_base.sh
 
-RUN cp -rf start_base.sh start_ran.sh && \
-cp -rf start_master.sh start_core.sh
+RUN cp -rf start_base.sh start_network_ran.sh && \
+cp -rf start_master.sh start_network_core.sh
 
 # =========================
 # cleanup final
