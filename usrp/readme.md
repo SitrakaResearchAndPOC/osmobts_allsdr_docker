@@ -19,11 +19,20 @@ docker  build -t osmobts_usrp:v1 .
 ```
 ## Launching container
 ```
-docker rm -f osmobts_usrp
+docker rm -f osmobts_usrp 2> /dev/null ; \
+docker run -itd --privileged \
+-v /dev/bus/usb:/dev/bus/usb \
+-v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+-v /home/user/.Xauthority:/home/user/.Xauthority:ro \
+--net=host --env="DISPLAY=$DISPLAY" \
+--env="LC_ALL=C.UTF-8" \
+--env="LANG=C.UTF-8"  \
+--name osmobts_usrp \
+-h osmobts_usrp \
+osmobts_usrp:v1
 ```
-```
-docker run -itd --privileged -v /dev/bus/usb:/dev/bus/usb -v /tmp/.X11-unix:/tmp/.X11-unix:ro -v $XAUTHORITY:/home/user/.Xauthority:ro --net=host --env="DISPLAY=$DISPLAY" --env="LC_ALL=C.UTF-8" --env="LANG=C.UTF-8"  --name osmobts_usrp -h osmobts_usrp osmobts_usrp:v1
-```
+i use before -v $XAUTHORITY:/home/user/.Xauthority:ro
+
 ## Testing driver USRP
 ```
 docker exec -it osmobts_usrp uhd_find_devices
